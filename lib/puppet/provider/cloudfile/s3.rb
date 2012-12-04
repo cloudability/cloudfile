@@ -55,11 +55,14 @@ Puppet::Type.type(:cloudfile).provide(:s3) do
     found
   end
 
-  def ensure_writable
-    if File.exists?(@resource[:path])
-      raise Puppet::Error, "Path exists but is not writable [#{@resource[:path]}]" unless File.writable?(@resource[:path])
+  private
+
+  def ensure_writable(search = nil)
+    search = @resource[:path] unless search
+    if File.exists?(search)
+      raise Puppet::Error, "Path exists but is not writable [#{search}]" unless File.writable?(search)
     else
-      parent = Pathname.new(@resource[:path]).parent
+      parent = Pathname.new(search).parent
       raise Puppet::Error, "Unable to write to path [#{path}]" unless File.writable?(parent)
     end
   end
