@@ -1,7 +1,7 @@
 class cloudfile::dependencies {
-  package { 'cloudfile_gems':
-    ensure => installed,
-    name => ['fog'],
-    provider => 'gem',
+  package { "cloudfile_fog":
+    name => "fog",
+    ensure => hiera("fog_version"),
+    provider => "gem",
   }
 }
