@@ -29,7 +29,7 @@ Puppet::Type.type(:cloudfile_type).provide(:s3) do
     b, f = bucket_and_file(@resource[:source])
 
     Puppet.debug("getting file [#{f}]")
-    file = conection.get_object(b, f)
+    file = connection.get_object(b, f)
     raise Puppet::Error, "Did not find file #{f} in bucket #{b}" unless file
 
     output_file = local_artifact_name
