@@ -1,5 +1,5 @@
-Puppet::Type.type(:cloudfile).provide(:s3) do
-  #confine(feature: :foglib)
+Puppet::Type.type(:cloudfile_type).provide(:s3) do
+  confine(feature: :foglib)
 
   desc('Get a file from an S3 bucket on AWS.')
 
@@ -7,8 +7,8 @@ Puppet::Type.type(:cloudfile).provide(:s3) do
     Puppet.debug("let's download some stuff")
     ensure_writable
 
-    Puppet.debug("requiring fog")
-    require "fog"
+    #Puppet.debug("requiring fog")
+    #require "fog"
 
     access_key_id = @resource[:access_key_id]
     secret_access_key = @resource[:secret_access_key]
