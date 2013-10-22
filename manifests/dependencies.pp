@@ -1,13 +1,15 @@
 class cloudfile::dependencies {
+  $deps = hiera("dependencies")
+
   package {
     "cloudfile_fog":
       name     => "fog",
-      ensure   => hiera("dependencies")["fog"],
+      ensure   => $deps["fog"],
       provider => "gem";
 
     "cloudfile_excon":
       name     => "excon",
-      ensure   => hiera("dependencies")["excon"],
+      ensure   => $deps["excon"],
       provider => "gem";
   }
 }
