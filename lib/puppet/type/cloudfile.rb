@@ -1,4 +1,4 @@
-Puppet::Type.newtype(:cloudfile) do
+Puppet::Type.newtype(:cloudfile_type) do
   @doc = 'Gets a file from the cloud and places it on local disk.'
 
   ensurable do
