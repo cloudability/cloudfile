@@ -1,5 +1,9 @@
-class cloudfile::dependencies {
-  $deps = hiera("dependencies")
+class cloudfile::dependencies (
+  $deps = {
+    'fog'   => 'present',
+    'excon' => 'present'
+  }
+) {
 
   package {
     "fog":

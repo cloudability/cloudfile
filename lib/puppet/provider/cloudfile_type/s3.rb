@@ -72,6 +72,6 @@ Puppet::Type.type(:cloudfile_type).provide(:s3) do
   end
 
   def bucket_and_file(resource)
-    b, f = resource.split('/', 2)
+    b, f = resource.sub('s3://', '').split('/', 2)
   end
 end
