@@ -42,6 +42,8 @@ Puppet::Type.type(:cloudfile_type).provide(:s3) do
   end
 
   def exists?
+    return false if @resource.overwrite?
+
     search = local_artifact_name
     found = File.exists?(search)
     Puppet.debug("Is it there? [#{search} == #{found}]")

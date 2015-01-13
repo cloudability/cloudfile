@@ -14,6 +14,10 @@ Puppet::Type.newtype(:cloudfile_type) do
     desc 'AWS secret access key.'
   end
 
+  newparam(:overwrite, boolean: true, parent: Puppet::Parameter::Boolean)
+    desc 'Whether to overwrite an existing file'
+  end
+
   newparam(:source) do
     desc 'Source where file can be found. Expected to be in the format of <s3 bucket>/<filename>'
     isnamevar
