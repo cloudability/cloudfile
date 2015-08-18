@@ -1,13 +1,13 @@
 class cloudfile::dependencies (
   $deps = {
-    'fog'   => 'present',
-    'excon' => 'present'
+    'aws-sdk'   => 'present',
+    'excon'     => 'present'
   }
 ) {
 
   package {
-    "fog":
-      ensure   => $deps["fog"],
+    "aws-sdk":
+      ensure   => $deps["aws-sdk"],
       provider => "gem";
 
     "cloudfile_excon":

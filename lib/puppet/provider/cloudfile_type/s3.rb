@@ -1,5 +1,5 @@
 Puppet::Type.type(:cloudfile_type).provide(:s3) do
-  confine(feature: :foglib)
+  confine(feature: :awssdk)
 
   desc('Get a file from an S3 bucket on AWS.')
 
@@ -11,22 +11,20 @@ Puppet::Type.type(:cloudfile_type).provide(:s3) do
     secret_access_key = @resource[:secret_access_key]
     if access_key_id && secret_access_key
       Puppet.debug("creating connection to aws with keys [#{access_key_id}, #{secret_access_key[0..2]}..#{secret_access_key[-3..-1]}]")
-      connection = Fog::Storage.new(
-        :provider              => 'AWS',
-        :aws_access_key_id     => access_key_id,
-        :aws_secret_access_key => secret_access_key
+      creds = Aws::Credentials.new(access_key_id, secret_access_key)
+      connection = Aws::S3::Client.new(
+        region: 'us-standard',
+        credentials: creds
       )
     else
       Puppet.debug('creating connection to aws anonymously')
-      connection = Fog::Storage.new(
-        :provider => 'AWS'
-      )
+      connection = Aws::S3::Client.new()
     end
 
     b, f = bucket_and_file(@resource[:source])
 
     Puppet.debug("getting file [#{f}]")
-    file = connection.get_object(b, f)
+    file = connection.get_object(bucket:b, key:f)
     raise Puppet::Error, "Did not find file #{f} in bucket #{b}" unless file
 
     output_file = local_artifact_name

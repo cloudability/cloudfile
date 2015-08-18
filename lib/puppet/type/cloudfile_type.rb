@@ -14,7 +14,7 @@ Puppet::Type.newtype(:cloudfile_type) do
     desc 'AWS secret access key.'
   end
 
-  newparam(:overwrite, boolean: true, parent: Puppet::Parameter::Boolean) do
+  newparam(:overwrite, boolean: true) do
     desc 'Whether to overwrite an existing file'
   end
 
