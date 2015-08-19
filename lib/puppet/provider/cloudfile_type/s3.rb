@@ -21,16 +21,15 @@ Puppet::Type.type(:cloudfile_type).provide(:s3) do
       connection = Aws::S3::Client.new()
     end
 
-    b, f = bucket_and_file(@resource[:source])
+    b, k = bucket_and_file(@resource[:source])
 
-    Puppet.debug("getting file [#{f}]")
-    file = connection.get_object(bucket:b, key:f)
-    raise Puppet::Error, "Did not find file #{f} in bucket #{b}" unless file
-
+    Puppet.debug("getting file [#{k}]")
     output_file = local_artifact_name
     Puppet.debug("writing file #{output_file}")
     File.open(output_file, 'w') do |f|
-      f.write(file.body)
+      resp = connection.get_object({bucket: b, key: k}) do | chunk |
+        f.write(chunk)
+      end
     end
   end
 
