@@ -27,9 +27,7 @@ Puppet::Type.type(:cloudfile_type).provide(:s3) do
     output_file = local_artifact_name
     Puppet.debug("writing file #{output_file}")
     File.open(output_file, 'w') do |f|
-      resp = connection.get_object({bucket: b, key: k}) do | chunk |
-        f.write(chunk)
-      end
+      resp = connection.get_object({bucket: b, key: k}, target: f) 
     end
   end
 
