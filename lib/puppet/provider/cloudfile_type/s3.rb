@@ -26,7 +26,7 @@ Puppet::Type.type(:cloudfile_type).provide(:s3) do
     output_file = local_artifact_name
     Puppet.debug("writing file [#{f}] to [#{output_file}]")
     connection.get_object(
-      response_target: output_file
+      response_target: output_file,
       bucket: b,
       key: f
     )
