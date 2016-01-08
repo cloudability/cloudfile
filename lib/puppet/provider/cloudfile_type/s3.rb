@@ -21,14 +21,15 @@ Puppet::Type.type(:cloudfile_type).provide(:s3) do
       connection = Aws::S3::Client.new()
     end
 
-    b, k = bucket_and_file(@resource[:source])
+    b, f = bucket_and_file(@resource[:source])
 
-    Puppet.debug("getting file [#{k}]")
     output_file = local_artifact_name
-    Puppet.debug("writing file #{output_file}")
-    File.open(output_file, 'w') do |f|
-      resp = connection.get_object({bucket: b, key: k}, target: f) 
-    end
+    Puppet.debug("writing file [#{f}] to [#{output_file}]")
+    connection.get_object(
+      response_target: output_file
+      bucket: b,
+      key: f
+    )
   end
 
   def destroy
